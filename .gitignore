@@ -1,0 +1,16 @@
+# Directorios
+/node_modules
+/public/storage
+/storage/*.key
+/vendor
+
+# Archivos
+/.env
+/.env.*
+/.idea
+/.phpunit.result.cache
+/database/*.sqlite
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
