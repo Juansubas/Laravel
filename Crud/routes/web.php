@@ -20,3 +20,4 @@ Route::get('/', function () {
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/logout', [UserController::Class, 'logout']);
+Route::post('/login', [UserController::Class, 'login']);
