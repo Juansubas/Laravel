@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -15,9 +17,17 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $posts = [];
+    if(auth()->check()){
+        //$posts = Post::where('user_id', auth()->id())->get();
+        $posts = auth()->user()->usersCoolPosts()->latest()->get();
+    }
+    return view('home',['posts'=> $posts]);
 });
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/logout', [UserController::Class, 'logout']);
 Route::post('/login', [UserController::Class, 'login']);
+
+// Blog Post
+Route::post('/createPost',[PostController::class, 'createPost']);
