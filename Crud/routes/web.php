@@ -31,3 +31,6 @@ Route::post('/login', [UserController::Class, 'login']);
 
 // Blog Post
 Route::post('/createPost',[PostController::class, 'createPost']);
+Route::get('/editPost/{post}',[PostController::class, 'showEditScreen']);
+Route::put('/editPost/{post}',[PostController::class, 'actuallyUpdatePost']);
+Route::delete('/deletePost/{post}', [PostController::class, 'deletePost']);
