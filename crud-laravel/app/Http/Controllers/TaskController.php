@@ -33,7 +33,8 @@ class TaskController extends Controller
     {
         $request->validate([
            'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'due_date' => 'required'
         ]);
 
         Task::create($request->all());
@@ -53,22 +54,30 @@ class TaskController extends Controller
      */
     public function edit(Task $task) : View
     {
-        //
+        return view('edit', ['task' => $task]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, Task $task) : RedirectResponse
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'due_date' => 'required'
+        ]);
+
+        $task->update($request->all());
+        return redirect()->route('tasks.index')->with('success', 'Tarea actualizada exitosamente!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(Task $task) : RedirectResponse
     {
-        //
+        $task->delete();
+        return redirect()->route('tasks.index')->with('success', 'Tarea eliminada exitosamente!');
     }
 }
