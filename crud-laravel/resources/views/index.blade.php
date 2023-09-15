@@ -42,7 +42,7 @@
                             <form action="{{route('tasks.destroy', $task)}}" method="post" class="d-inline">
                                 @method('DELETE')
                                 @csrf
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                <button type="submit" class="btn btn-danger" >Eliminar</button>
                             </form>
                         </td>
                     </tr>
