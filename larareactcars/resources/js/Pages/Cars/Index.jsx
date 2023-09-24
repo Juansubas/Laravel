@@ -11,8 +11,19 @@ import { useForm } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import WarningButton from "@/Components/WaningButton.jsx";
+import Swal from 'sweetalert2';
 
 export default function Dashboard( props ) {
+    const [modal, setModal] = useState(false);
+    const [title, setTitle] = useState(false);
+    const MakeInput = useRef();
+    const ModelInput = useRef();
+    const ColorInput = useRef();
+    const { data, setData, delete:destroy, post, put,
+    processing, reset, errors} = useForm({
+        id: '', make: '', model: '', color: ''
+    });
+
     return (
         <AuthenticatedLayout
             user={props.auth}
