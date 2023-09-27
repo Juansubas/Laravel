@@ -5,7 +5,7 @@ import InputLabel from '@/Components/InputLabel';
 import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
-
+import Select from "@/Components/Select";
 import { useRef, useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 export default function Dashboard( props ) {
     const [modal, setModal] = useState(false);
     const [title, setTitle] = useState(false);
+    const [operation, setOperation] = useState(1);
     const MakeInput = useRef();
     const ModelInput = useRef();
     const ColorInput = useRef();
@@ -23,6 +24,27 @@ export default function Dashboard( props ) {
     processing, reset, errors} = useForm({
         id: '', make: '', model: '', color: ''
     });
+
+    const openModal = (op, id, make, model, color) => {
+        console.log('entre');
+        setModal(true);
+        setOperation(op);
+        setData({make:'', model:'', color: ''});
+        if(op === 1){
+            setTitle('Anadir Auto');
+        }else {
+            setTitle('Modificar Auto');
+            setData({id:id, make:make, model:model, color:color});
+        }
+    };
+
+    const closeModal = () =>{
+        setModal(false);
+    };
+
+    const save = () => {
+
+    };
 
     return (
         <AuthenticatedLayout
@@ -34,7 +56,7 @@ export default function Dashboard( props ) {
 
             <div className="bg-white grid v-screen place-items-center">
                 <div className="mt-3 mb-3 flex justify-end">
-                    <PrimaryButton>
+                    <PrimaryButton onClick={() => openModal(1)}>
                         <i className='fa-solid fa-plus-circle'></i>
                         Anadir
                     </PrimaryButton>
@@ -54,7 +76,6 @@ export default function Dashboard( props ) {
                         </tr>
                     </thead>
                     <tbody>
-                    {console.log(props.cars)}
                         {props.cars.map((car, i) => (
                             <tr key={car.id}>
                                 <td className='border border-gray-400 px-2 py-2'>{(i+1)}</td>
@@ -64,7 +85,7 @@ export default function Dashboard( props ) {
                                     <i className={`fa-solid fa-car text-${car.color}-600`}></i>
                                 </td>
                                 <td className='border border-gray-400 px-2 py-2'>
-                                    <WarningButton>
+                                    <WarningButton onClick={() => openModal(2, car.id, car.make, car.model, car.color)} >
                                         <i className='fa-solid fa-edit'></i>
                                     </WarningButton>
                                 </td>
@@ -78,41 +99,46 @@ export default function Dashboard( props ) {
                     </tbody>
                 </table>
             </div>
-            <Modal show={confirmingUserDeletion} onClose={closeModal}>
-                <form onSubmit={deleteUser} className="p-6">
-                    <h2 className="text-lg font-medium text-gray-900">
-                        Are you sure you want to delete your account?
-                    </h2>
-
-                    <p className="mt-1 text-sm text-gray-600">
-                        Once your account is deleted, all of its resources and data will be permanently deleted. Please
-                        enter your password to confirm you would like to permanently delete your account.
-                    </p>
-
-                    <div className="mt-6">
-                        <InputLabel htmlFor="password" value="Password" className="sr-only" />
-
-                        <TextInput
-                            id="password"
-                            type="password"
-                            name="password"
-                            ref={passwordInput}
-                            value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
-                            className="mt-1 block w-3/4"
-                            isFocused
-                            placeholder="Password"
-                        />
-
-                        <InputError message={errors.password} className="mt-2" />
+            <Modal show={modal} onClose={closeModal}>
+                <h2 className="p-3 text-lg font-medium text-gray-900">
+                    {console.log(title)}
+                    {title}
+                </h2>
+                <form onSubmit={save} className="p-6">
+                    <div className='mt-1'>
+                        <InputLabel for="make" value="Marca"></InputLabel>
+                        <TextInput id="make" name="make" ref={MakeInput}
+                        value={data.make} required='required'
+                        handleChange={(e) => setData('make', e.target.value)}
+                        className="mt-1 block w-3/4" isFocused></TextInput>
+                        <InputError message={errors.make} className='m2-2'></InputError>
                     </div>
-
+                    <div className='mt-6'>
+                        <InputLabel for="model" value="Modelo"></InputLabel>
+                        <TextInput id="model" name="model" ref={ModelInput}
+                                   value={data.model} required='required'
+                                   handleChange={(e) => setData('model', e.target.value)}
+                                   className="mt-1 block w-3/4" isFocused></TextInput>
+                        <InputError message={errors.model} className='m2-2'></InputError>
+                    </div>
+                    <div className='mt-6'>
+                        <InputLabel for="color" value="Color"></InputLabel>
+                        <Select id="color" name="color" ref={ColorInput}
+                                   value={data.color} required='required'
+                                   handleChange={(e) => setData('color', e.target.value)}
+                                   className="mt-1 block w-3/4"
+                                   options={['gray', 'red', 'yellow', 'green', 'purple']}
+                        ></Select>
+                        <InputError message={errors.model} className='m2-2'></InputError>
+                    </div>
+                    <div className='mt-6'>
+                        <PrimaryButton processing={processing} className='mt-2'>
+                            <i className='fa-solid fa-save'></i>Guardar
+                        </PrimaryButton>
+                    </div>
                     <div className="mt-6 flex justify-end">
                         <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
 
-                        <DangerButton className="ml-3" disabled={processing}>
-                            Delete Account
-                        </DangerButton>
                     </div>
                 </form>
             </Modal>
