@@ -42,8 +42,70 @@ export default function Dashboard( props ) {
         setModal(false);
     };
 
-    const save = () => {
+    const save = (e) => {
+        e.preventDefault();
+        if(operation === 1) {
+            post(route('cars.store'), {
+                onSuccess: () => { ok('Auto Guardado') },
+                onError: () => {
+                    if(errors.make){
+                        reset('make');
+                        MakeInput.current.focus();
+                    }
+                    if(errors.model){
+                        reset('model');
+                        ModelInput.current.focus();
+                    }
+                    if(errors.color){
+                        reset('color');
+                        ColorInput.current.focus();
+                    }
 
+                }
+            })
+        } else {
+            put(route('cars.update', data.id), {
+                onSuccess: () => { ok('Auto Modificado') },
+                onError: () => {
+                    if(errors.make){
+                        reset('make');
+                        MakeInput.current.focus();
+                    }
+                    if(errors.model){
+                        reset('model');
+                        ModelInput.current.focus();
+                    }
+                    if(errors.color){
+                        reset('color');
+                        ColorInput.current.focus();
+                    }
+
+                }
+            })
+        }
+    };
+
+    const ok = (mensaje) => {
+        reset();
+        closeModal();
+        Swal.fire({title:mensaje, icon:'success'})
+    };
+
+    const eliminar (id, name) => {
+      const alerta = Swal.mixin({buttonsStyling:true});
+      alerta.fire({
+          title: 'Seguro de eliminar el auto' +name,
+          text: 'Se perdera el Auto',
+          icon: 'question', showCancelButton:true,
+          confirmButtonText: '<i class="fa-solid fa-check"></i> Si, eliminar',
+          cancelButtonText: '<i class="fa-solid fa-ban"></i> Cancelar',
+      }).then((result) => {
+         if(result.isConfirmed){
+             destroy(route('cars.destroy', id),
+                 {onSuccess: () => {ok('Auto Eliminado')}}
+                 )
+         }
+      });
     };
 
     return (
@@ -90,7 +152,7 @@ export default function Dashboard( props ) {
                                     </WarningButton>
                                 </td>
                                 <td className='border border-gray-400 px-2 py-2'>
-                                    <DangerButton>
+                                    <DangerButton onClick={() => eliminar(car.id, car.make)}>
                                         <i className='fa-solid fa-remove'></i>
                                     </DangerButton>
                                 </td>
@@ -118,7 +180,7 @@ export default function Dashboard( props ) {
                         <TextInput id="model" name="model" ref={ModelInput}
                                    value={data.model} required='required'
                                    handleChange={(e) => setData('model', e.target.value)}
-                                   className="mt-1 block w-3/4" isFocused></TextInput>
+                                   className="mt-1 block w-3/4" ></TextInput>
                         <InputError message={errors.model} className='m2-2'></InputError>
                     </div>
                     <div className='mt-6'>
@@ -129,7 +191,7 @@ export default function Dashboard( props ) {
                                    className="mt-1 block w-3/4"
                                    options={['gray', 'red', 'yellow', 'green', 'purple']}
                         ></Select>
-                        <InputError message={errors.model} className='m2-2'></InputError>
+                        <InputError message={errors.color} className='m2-2'></InputError>
                     </div>
                     <div className='mt-6'>
                         <PrimaryButton processing={processing} className='mt-2'>

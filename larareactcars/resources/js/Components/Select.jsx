@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useRef } from 'react';
 
-export default forwardRef(function TextInput({ options = null, className = '', isFocused = false, ...props }, ref) {
+export default forwardRef(function TextInput({ options = null, name, id, value, className = '',autoComplete, required, isFocused = false, handleChange}, ref) {
     const input = ref ? ref : useRef();
 
     useEffect(() => {
@@ -11,12 +11,17 @@ export default forwardRef(function TextInput({ options = null, className = '', i
 
     return (
         <select
-            {...props}
+            name={name}
+            id={id}
+            value={value}
             className={
                 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm ' +
                 className
             }
             ref={input}
+            autoComplete={autoComplete}
+            required={required}
+            onChange={(e) => handleChange(e)}
         >
             {options.map((option) => (
                 <option value={option} key={option}>{option}</option>
