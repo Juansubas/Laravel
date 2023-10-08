@@ -4,7 +4,7 @@ import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { useForm, Head } from '@inertiajs/react';
 
-export default function Chirps({ auth }) {
+export default function Index({ auth }) {
     const { data, setData, post, processing, reset, errors } = useForm({
         message: '',
     });
@@ -16,7 +16,7 @@ export default function Chirps({ auth }) {
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Chirps" />
+            <Head title="Index" />
 
             <div className="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
                 <form onSubmit={submit}>
