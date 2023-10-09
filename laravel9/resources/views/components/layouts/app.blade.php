@@ -16,6 +16,13 @@
 {{--@yield('content')--}}
 <x-layouts.navigation />
 
+@if(session('status'))
+    <div class="status">
+        {{ session('status') }}
+    </div>
+@endif
+
+
 <pre>
     {{ $sum }}
 </pre>
