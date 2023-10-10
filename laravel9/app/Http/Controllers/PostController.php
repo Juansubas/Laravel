@@ -44,9 +44,9 @@ class PostController extends Controller
 //        ]);
         Post::created($request->validate());
 
-        session()->flash('status', 'Post created!');
+//        session()->flash('status', 'Post created!');
 
-        return to_route('posts.index');
+        return to_route('posts.index')->with('status', 'Post created!');
     }
 
     public function edit(Post $post)
@@ -71,9 +71,9 @@ class PostController extends Controller
 //        ]);
 
         Post::updated($request->validate());
+//
+//        session()->flash('status', 'Post updated!');
 
-        session()->flash('status', 'Post updated!');
-
-        return to_route('posts.show' , $post);
+        return to_route('posts.show' , $post)->with('status', 'Post updated!');
     }
 }
