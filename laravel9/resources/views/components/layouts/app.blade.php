@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title ?? '' }}</title>
     <meta name="description" content="{{ $metaDescription ?? 'Default meta description'}}">
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
 {{--    <title>@yield('title')</title>--}}
 {{--    <meta name="description" content="@yield('meta-description', 'Default meta description')">--}}
 </head>
