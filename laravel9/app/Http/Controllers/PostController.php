@@ -26,12 +26,12 @@ class PostController extends Controller
         return view('posts.create', ['post' => new Post()]);
     }
 
-    public function store(Request $request)
+    public function store(SavePostRequest $request)
     {
-        $validated =$request->validate([
-            'title' => ['required', 'min:4'],
-            'body' => 'required'
-        ]);
+//        $validated =$request->validate([
+//            'title' => ['required', 'min:4'],
+//            'body' => 'required'
+//        ]);
 
 //        $post = new Post;
 //        $post->title = $request->input('title');
@@ -42,7 +42,7 @@ class PostController extends Controller
 //            'title' => $request->input('title'),
 //            'body' => $request->input('body')
 //        ]);
-        Post::created($validated);
+        Post::created($request->validate());
 
         session()->flash('status', 'Post created!');
 
@@ -70,7 +70,7 @@ class PostController extends Controller
 //            'body' => $request->input('body')
 //        ]);
 
-        Post::updated($validated);
+        Post::updated($request->validate());
 
         session()->flash('status', 'Post updated!');
 
