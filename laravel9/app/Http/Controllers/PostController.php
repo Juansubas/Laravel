@@ -76,4 +76,11 @@ class PostController extends Controller
 
         return to_route('posts.show' , $post)->with('status', 'Post updated!');
     }
+
+    public function destroy($post)
+    {
+        Post::deleted($post);
+
+        return to_route('posts.show' , $post)->with('status', 'Post Deleted!');
+    }
 }
