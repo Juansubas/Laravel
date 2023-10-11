@@ -42,7 +42,7 @@ class PostController extends Controller
 //            'title' => $request->input('title'),
 //            'body' => $request->input('body')
 //        ]);
-        Post::created($request->validate());
+        Post::create($request->validated());
 
 //        session()->flash('status', 'Post created!');
 
@@ -56,10 +56,10 @@ class PostController extends Controller
 
     public function update(SavePostRequest $request, Post $post)
     {
-        $validated =$request->validate([
-            'title' => ['required', 'min:4'],
-            'body' => 'required'
-        ]);
+//        $validated =$request->validate([
+//            'title' => ['required', 'min:4'],
+//            'body' => 'required'
+//        ]);
 
 //        $post->title = $request->input('title');
 //        $post->body = $request->input('body');
@@ -70,7 +70,7 @@ class PostController extends Controller
 //            'body' => $request->input('body')
 //        ]);
 
-        Post::updated($request->validate());
+        Post::update($request->validated());
 //
 //        session()->flash('status', 'Post updated!');
 
@@ -79,7 +79,7 @@ class PostController extends Controller
 
     public function destroy($post)
     {
-        Post::deleted($post);
+        Post::delete($post);
 
         return to_route('posts.show' , $post)->with('status', 'Post Deleted!');
     }
