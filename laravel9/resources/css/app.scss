@@ -1,13 +1,5 @@
-$white: #ffffff;
+@tailwind base;
 
-body {
-    background-color: red;
+@tailwind components;
 
-    h1{
-        color: $white;
-    }
-
-    a {
-        color: $white;
-    }
-}
+@tailwind utilities;
