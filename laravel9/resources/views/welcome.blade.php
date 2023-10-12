@@ -17,7 +17,13 @@
     meta-description="Home description"
     :sum="2 + 2"
 >
-    <h1 class="text-3xl text-blue-500 font-bold underline">
-        Hello world!
+    <h1 class="my-4 font-serif text-3xl text-center text-white font-bold">
+        Home
     </h1>
+
+    @auth()
+        <pre class="text-white">
+            Authenticated User{{ Auth::user()->name }}
+        </pre>
+    @endauth
 </x-layouts.app>
